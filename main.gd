@@ -3,14 +3,14 @@ extends Node2D
 @onready var tilemap = $Grid
 @onready var units = $Units
 
-@onready var cat_scene_2 = preload("res://cat_unit.tscn")
-@onready var cat_scene_1 = preload("res://cat_unit_2.tscn")
+@onready var cat_scene_1 = preload("res://cat_unit_2.tscn") # Cat 1
+@onready var cat_scene_2 = preload("res://cat_unit.tscn")   # Cat 2
+@onready var cat_scene_3 = preload("res://cat_unit_3.tscn") # Cat 3
 
 var selected_unit_scene : PackedScene = null
 
 func _ready():
-	selected_unit_scene = cat_scene_2
-
+	selected_unit_scene = cat_scene_1
 	
 func _unhandled_input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
@@ -31,15 +31,16 @@ func select_unit(index: int):
 		selected_unit_scene = cat_scene_1
 	elif index == 1:
 		selected_unit_scene = cat_scene_2
+	elif index == 2:
+		selected_unit_scene = cat_scene_3
 	else:
 		print("Invalid unit index")
 
-
 func _on_cat_button_1_pressed() -> void:
-	selected_unit_scene = cat_scene_1 
-	 # Replace with function body.
-
+	selected_unit_scene = cat_scene_1
 
 func _on_cat_button_2_pressed() -> void:
-	selected_unit_scene = cat_scene_2 
- # Replace with function body.
+	selected_unit_scene = cat_scene_2
+
+func _on_cat_button_3_pressed() -> void:
+	selected_unit_scene = cat_scene_3

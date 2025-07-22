@@ -1,0 +1,61 @@
+[gd_scene load_steps=7 format=3 uid="uid://0cug6tlndhwf"]
+
+[ext_resource type="Texture2D" uid="uid://csm4ufmkjclll" path="res://CatButton2.png" id="1_6ayv4"]
+[ext_resource type="Script" uid="uid://dygbie6midc4c" path="res://cat_projectile.gd" id="1_jfoqw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jfoqw"]
+
+[sub_resource type="Animation" id="Animation_vcqd4"]
+resource_name = "new_animation"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666666, 0.1, 0.133333, 0.2, 0.233333, 0.266667, 0.3, 0.333333, 0.366667, 0.4, 0.433333, 0.466667, 0.5, 0.533333, 0.566667, 0.633333, 0.666667, 0.733333, 0.766667, 0.833333, 0.866667, 0.933333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+}
+
+[sub_resource type="Animation" id="Animation_utpcu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_83kph"]
+_data = {
+&"RESET": SubResource("Animation_utpcu"),
+&"new_animation": SubResource("Animation_vcqd4")
+}
+
+[node name="Cat_Projectile" type="Node2D"]
+script = ExtResource("1_jfoqw")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.738889, 0.517241)
+texture = ExtResource("1_6ayv4")
+
+[node name="ChaseArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChaseArea"]
+shape = SubResource("RectangleShape2D_jfoqw")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_83kph")
+}
+
+[connection signal="area_entered" from="ChaseArea" to="." method="_on_chase_area_area_entered"]
