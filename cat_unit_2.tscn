@@ -1,0 +1,75 @@
+[gd_scene load_steps=8 format=3 uid="uid://drb8rllhtv14c"]
+
+[ext_resource type="Texture2D" uid="uid://cxu3sym2p6o76" path="res://grey.png" id="1_0qowo"]
+[ext_resource type="Script" uid="uid://c8er4g1qblaux" path="res://cat_unit_2.gd" id="1_np5o3"]
+
+[sub_resource type="Animation" id="Animation_4c57u"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+
+[sub_resource type="Animation" id="Animation_kek77"]
+resource_name = "Walk"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [6, 7, 8, 9, 10, 11, 6, 7, 8, 9, 10]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_efxa6"]
+_data = {
+&"RESET": SubResource("Animation_4c57u"),
+&"Walk": SubResource("Animation_kek77")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_np5o3"]
+size = Vector2(48, 28)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_np5o3"]
+radius = 144.674
+
+[node name="CatUnit2" type="Node2D" groups=["enemy"]]
+script = ExtResource("1_np5o3")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_efxa6")
+}
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_0qowo")
+hframes = 6
+vframes = 4
+frame = 6
+
+[node name="Detector" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detector"]
+position = Vector2(1, 9)
+shape = SubResource("RectangleShape2D_np5o3")
+
+[node name="ChaseArea" type="Area2D" parent="." groups=["player"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChaseArea"]
+position = Vector2(3.5, -3.5)
+shape = SubResource("CircleShape2D_np5o3")
+
+[connection signal="area_entered" from="Detector" to="." method="_on_detector_area_entered"]
